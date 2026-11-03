@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>DevBackup</title>
+<meta name="description" content="DevBackup is a personal, encrypted backup of one developer's workstation to their own Google Drive.">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <nav aria-label="Main">
+    <a class="brand" href="./">DevBackup</a>
+    <a href="./" aria-current="page">Home</a>
+    <a href="privacy.html">Privacy policy</a>
+  </nav>
+</header>
+<main>
+  <h1>DevBackup</h1>
+  <p class="lead">DevBackup is a personal backup tool. It copies one developer's Windows workstation to that
+  developer's own Google Drive account, encrypted, once an hour. It is not a product or a service, and it has one
+  user: its owner.</p>
+
+  <h2>What it does</h2>
+  <ul>
+    <li>Every hour, a scheduled task on the owner's PC collects the development folders: source code, Git
+      repositories (including uncommitted and unpushed work), configuration, and consistent copies of local SQLite
+      databases.</li>
+    <li>It stores them with <a href="https://restic.net/">restic</a>, an open-source backup program. restic encrypts
+      every file on the PC before upload, and after the first run it uploads only data that changed.</li>
+    <li>It uploads the encrypted data to the owner's Google Drive with <a href="https://rclone.org/">rclone</a>, an
+      open-source file transfer program.</li>
+    <li>It keeps 24 hourly, 14 daily and 8 weekly snapshots, checks the repository daily, and test-restores a
+      sample of files weekly.</li>
+  </ul>
+
+  <h2>Why it signs in to Google</h2>
+  <p>rclone needs permission to write the encrypted backup files to Google Drive. DevBackup uses its own Google
+  OAuth client for this, so its API requests have their own quota. When the owner signs in, Google asks whether
+  DevBackup may see, edit, create and delete only the specific Google Drive files used with this app (the
+  <code>drive.file</code> permission). With that permission it cannot see or open any other file in the account.</p>
+
+  <h2>What it does not do</h2>
+  <ul>
+    <li>There is no DevBackup server. Data goes from the owner's PC straight to Google Drive.</li>
+    <li>It collects no analytics or telemetry and shares nothing with third parties.</li>
+    <li>It is not offered to other people. Nobody else can use it to back up their data.</li>
+  </ul>
+
+  <p>How data is handled is described in the <a href="privacy.html">privacy policy</a>.</p>
+
+  <h2>Contact</h2>
+  <p>Questions about this app: open an issue in the
+  <a href="https://github.com/DoArtMonteiro/devbackup-oauth/issues">devbackup-oauth repository</a>, or contact the
+  owner through the <a href="https://github.com/DoArtMonteiro">GitHub profile</a>.</p>
+</main>
+<footer>
+  <p>DevBackup, maintained by Duarte Monteiro. Last updated 3 November 2026.</p>
+</footer>
+</body>
+</html>
